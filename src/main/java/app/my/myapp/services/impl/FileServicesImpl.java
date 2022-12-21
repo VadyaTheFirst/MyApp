@@ -4,6 +4,7 @@ import app.my.myapp.services.FileServices;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,7 +22,7 @@ public class FileServicesImpl implements FileServices {
     @Override
     public boolean saveToFile(String json) {
         try {
-            removeFile();
+            cleanFile();
             Files.writeString(Path.of(pathToFile, nameOfProductFile), json);
             return true;
         } catch (IOException e) {
@@ -37,8 +38,8 @@ public class FileServicesImpl implements FileServices {
             throw new RuntimeException(e);
         }
     }
-
-    private boolean removeFile(){
+@Override
+    public boolean cleanFile(){
         try {
             Path path = Path.of(pathToFile, nameOfProductFile);
             Files.deleteIfExists(path);
@@ -48,4 +49,10 @@ public class FileServicesImpl implements FileServices {
             throw new RuntimeException(e);
         }
     }
+@Override
+    public File getDataFile(){
+    System.out.println(pathToFile + nameOfProductFile);
+    return new File(pathToFile+nameOfProductFile);}
+
+
 }
